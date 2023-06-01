@@ -1,0 +1,53 @@
+{
+  "ressourcesPath": "/Users/valentinwitt/Documents/15_Coding/01_Java/LostAndFound/ressources",
+  "riddles": [
+    {
+      "name": "Uhr",
+      "image": "Uhr.png",
+      "locationX0": 342,
+      "locationY0": 312,
+      "locationX1": 369,
+      "locationY1": 332
+    },
+    {
+      "name": "Spiegel",
+      "image": "Spiegel.png",
+      "locationX0": 298,
+      "locationY0": 561,
+      "locationX1": 354,
+      "locationY1": 617
+    },
+    {
+      "name": "Banane",
+      "image": "Banane.png",
+      "locationX0": 675,
+      "locationY0": 395,
+      "locationX1": 724,
+      "locationY1": 438
+    },
+    {
+      "name": "Wuerfel",
+      "image": "Wuerfel.png",
+      "locationX0": 1527,
+      "locationY0": 442,
+      "locationX1": 1547,
+      "locationY1": 462
+    },
+    {
+      "name": "Kerze",
+      "image": "Kerze.png",
+      "locationX0": 298,
+      "locationY0": 191,
+      "locationX1": 436,
+      "locationY1": 307
+    },
+    {
+      "name": "Streichholz",
+      "image": "Streichholz.png",
+      "locationX0": 1045,
+      "locationY0": 712,
+      "locationX1": 1087,
+      "locationY1": 778
+    }
+  ]
+}

@@ -19,13 +19,15 @@ import java.nio.file.FileSystems;
 public class Startscreen_Panel extends JPanel {
 
     Image image;
+    private final Properties properties;
 
     /**
      * Create the panel.
      */
     public Startscreen_Panel(Properties properties) {
+        this.properties = properties;
         try {
-            String imageName = properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + "Startbildschirm.png";
+            String imageName = this.properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + "Startbildschirm.png";
             System.out.println(imageName);
 
             image = ImageIO.read(new File(imageName));

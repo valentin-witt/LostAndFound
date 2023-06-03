@@ -1,5 +1,6 @@
 {
   "ressourcesPath": "/Users/valentinwitt/Documents/15_Coding/01_Java/LostAndFound/ressources",
+  "countdownTime": 1,
   "riddles": [
     {
       "name": "Uhr",

@@ -29,7 +29,7 @@ public class Location {
         this.name = name;
     }
 
-    public boolean ishit(int x, int y) {
+    public boolean isHit(int x, int y) {
         boolean hit = false;
         if (x > x0 && y > y0 && x < x0 + w && y < y0 + h) {
             hit = true;

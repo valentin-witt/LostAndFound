@@ -19,18 +19,21 @@ public class Endscreen {
     /**
      * Create the application.
      */
-    public Endscreen() {
-        initialize();
+    public Endscreen(Properties properties) {
+        initialize(properties);
     }
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        // Initialize reader, read properties file and parse json content to POJO Properties
+        PropertiesReader reader = new PropertiesReader();
+        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    endscreen = new Endscreen();
+                    endscreen = new Endscreen(properties);
                     endscreen.getFrame().setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -42,11 +45,8 @@ public class Endscreen {
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize() {
-        // Initialize reader, read properties file and parse json content to POJO Properties
-        PropertiesReader reader = new PropertiesReader();
+    private void initialize(Properties properties) {
         String separator = FileSystems.getDefault().getSeparator();
-        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
         String imageName = properties.getRessourcesPath() + separator + "Logo_neu.jpg";
 
         setFrame(new JFrame());

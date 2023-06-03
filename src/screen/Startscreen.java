@@ -1,5 +1,6 @@
 package screen;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import config.Properties;
 import config.PropertiesReader;
 
@@ -18,18 +19,22 @@ public class Startscreen {
     /**
      * Create the application.
      */
-    public Startscreen() {
-        initialize();
+    public Startscreen(Properties properties) {
+        initialize(properties);
     }
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        // Initialize reader, read properties file and parse json content to POJO Properties
+        PropertiesReader reader = new PropertiesReader();
+        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    startscreen = new Startscreen();
+                    startscreen = new Startscreen(properties);
                     startscreen.getFrame().setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -41,11 +46,9 @@ public class Startscreen {
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize() {
+    private void initialize(Properties properties) {
         // Initialize reader, read properties file and parse json content to POJO Properties
-        PropertiesReader reader = new PropertiesReader();
         String separator = FileSystems.getDefault().getSeparator();
-        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
         String imageName = properties.getRessourcesPath() + separator + "Logo_neu.jpg";
 
         frame = new JFrame();
@@ -58,7 +61,7 @@ public class Startscreen {
         JButton btnStartGame = new JButton("Spiel starten");
         btnStartGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Playscreen.playscreen = new Playscreen();
+                Playscreen.playscreen = new Playscreen(properties);
                 Playscreen.playscreen.frame.setVisible(true);
                 frame.setVisible(false);
             }

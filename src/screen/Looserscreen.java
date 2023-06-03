@@ -12,8 +12,8 @@ import java.nio.file.FileSystems;
 public class Looserscreen {
 
     private final static String PATH_TO_PROPERTIES = "/Users/valentinwitt/Documents/15_Coding/01_Java/LostAndFound/properties.json";
-    static Looserscreen window;
-    private JFrame frame;
+    static Looserscreen looserscreen;
+    public JFrame frame;
     private JButton btnExitGame;
     private JButton btnRestartGame;
 
@@ -21,19 +21,23 @@ public class Looserscreen {
     /**
      * Create the application.
      */
-    public Looserscreen() {
-        initialize();
+    public Looserscreen(Properties properties) {
+        initialize(properties);
     }
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        // Initialize reader, read properties file and parse json content to POJO Properties
+        PropertiesReader reader = new PropertiesReader();
+        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    window = new Looserscreen();
-                    window.frame.setVisible(true);
+                    looserscreen = new Looserscreen(properties);
+                    looserscreen.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -44,11 +48,8 @@ public class Looserscreen {
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize() {
-        // Initialize reader, read properties file and parse json content to POJO Properties
-        PropertiesReader reader = new PropertiesReader();
+    private void initialize(Properties properties) {
         String separator = FileSystems.getDefault().getSeparator();
-        Properties properties = reader.readPropertiesFile(PATH_TO_PROPERTIES);
         String imageName = properties.getRessourcesPath() + separator + "Logo_neu.jpg";
 
         frame = new JFrame();
@@ -57,30 +58,29 @@ public class Looserscreen {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Looserscreen_Panel panel = new Looserscreen_Panel();
+        Looserscreen_Panel panel = new Looserscreen_Panel(properties);
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
         JPanel panel_1 = new JPanel();
         frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
 
-        JButton btnSpiel_schließen = new JButton("Spiel schließen");
-        btnSpiel_schließen.addActionListener(new ActionListener() {
+        btnExitGame = new JButton("Spiel schließen");
+        btnExitGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        panel_1.add(btnSpiel_schließen);
+        panel_1.add(btnExitGame);
 
-        JButton btnSpiel_neu_starten = new JButton("Spiel neu starten");
-        btnSpiel_neu_starten.addActionListener(new ActionListener() {
+        btnRestartGame = new JButton("Spiel neu starten");
+        btnRestartGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Playscreen.playscreen = new Playscreen();
+                Playscreen.playscreen = new Playscreen(properties);
                 Playscreen.playscreen.getFrame().setVisible(true);
-                Looserscreen.window.frame.setVisible(false);
-
+                Looserscreen.looserscreen.frame.setVisible(false);
             }
         });
-        panel_1.add(btnSpiel_neu_starten);
+        panel_1.add(btnRestartGame);
 
     }
 }

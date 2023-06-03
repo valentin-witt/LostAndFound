@@ -1,36 +1,38 @@
 package screen;
 
+import config.Properties;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 
 public class Looserscreen_Panel extends JPanel {
 
-    Image img;
+    Image image;
+    //private Properties properties;
 
     /**
      * Create the panel.
      */
-    public Looserscreen_Panel() {
+    public Looserscreen_Panel(Properties properties) {
         try {
-            String img_name = System.getProperty("user.dir") + "\\ressources\\Looserbildschirm.png";
-            System.out.println(img_name);
+            String imageName = properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + "Looserbildschirm.png";
+            System.out.println(imageName);
 
-            img = ImageIO.read(new File(img_name));
+            image = ImageIO.read(new File(imageName));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-
     public void paint(Graphics g) {
-        int wp = img.getWidth(null);
+        int wp = image.getWidth(null);
         int w = getWidth();
-        int h = img.getHeight(null) * w / wp;
-        g.drawImage(img, 0, 0, w, h, null);
+        int h = image.getHeight(null) * w / wp;
+        g.drawImage(image, 0, 0, w, h, null);
     }
 
 }

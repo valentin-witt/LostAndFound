@@ -12,18 +12,19 @@ import java.nio.file.FileSystems;
 public class Endscreen_Panel extends JPanel {
 
     Image image;
+    private Properties properties;
 
     /**
      * Create the panel.
      */
     public Endscreen_Panel(Properties properties) {
+        this.properties = properties;
         try {
-            String imageName = properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + "Schlussbildschirm.png";
+            String imageName = this.properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + "Schlussbildschirm.png";
             System.out.println(imageName);
 
             image = ImageIO.read(new File(imageName));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

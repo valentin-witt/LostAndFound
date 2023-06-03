@@ -21,37 +21,57 @@ import java.util.ArrayList;
 
 public class Playscreen_Panel extends JPanel implements MouseListener, ActionListener {
 
+    private final Properties properties;
     ArrayList<Image> images;
-    int currentRiddle = 0;
     ArrayList<Location> locations;
     Endscreen endscreen;
+    Looserscreen looserscreen;
     private int counterCurrentRiddle = 0;
+
+    private ActionListener countdownExpired;
+    private Timer countdownTimer;
+    private int countdownTime;
 
     /**
      * Create the panel.
      */
     public Playscreen_Panel(Properties properties) {
+        this.properties = properties;
         images = new ArrayList();
         locations = new ArrayList();
 
+        // CountdownTimer
+        countdownTime = properties.getCountdownTime() * 10 * 1000; // Delay in milliseconds
+
+        // Initialize ActionListener to perform task if the countdownTime expires
+       countdownExpired = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                Looserscreen.looserscreen = new Looserscreen(properties);
+                Looserscreen.looserscreen.frame.setVisible(true);
+                Playscreen.playscreen.frame.setVisible(false);
+                countdownTimer.removeActionListener(countdownExpired);
+            }
+        };
+        countdownTimer = new Timer(countdownTime, countdownExpired);
+        countdownTimer.start();
+
         if (properties.getRiddles() != null) {
-            for (Riddle riddle : properties.getRiddles()) {
-                images.add(loadBild(properties, riddle.getImage()));
+            for (Riddle riddle : this.properties.getRiddles()) {
+                images.add(loadImage(riddle.getImage()));
                 locations.add(new Location(properties, riddle.getLocationX0(), riddle.getLocationY0(), riddle.getLocationX1(), riddle.getLocationY1(), riddle.getName()));
             }
         }
         addMouseListener(this);
     }
 
-    Image loadBild(Properties properties, String name) {
+    Image loadImage(String name) {
         Image image = null;
         try {
-            String imageName = properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + name;
+            String imageName = this.properties.getRessourcesPath() + FileSystems.getDefault().getSeparator() + name;
             System.out.println(imageName);
 
             image = ImageIO.read(new File(imageName));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return image;
@@ -72,30 +92,16 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
     }
 
     public Image getImage() {
-        return images.get(currentRiddle);
-    }
-
-    /**
-     * @return the aktindex
-     */
-    public int getCurrentRiddle() {
-        return currentRiddle;
-    }
-
-    /**
-     * @param currentRiddle the aktindex to set
-     */
-    public void setCurrentRiddle(int currentRiddle) {
-        this.currentRiddle = currentRiddle;
+        return images.get(counterCurrentRiddle);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println("( " + e.getX() + ", " + e.getY() + " )");
         for (Location l : locations) {
-            if (l.ishit(e.getX(), e.getY())) {
+            if (l.isHit(e.getX(), e.getY())) {
                 System.out.println("Rätsel " + l.name + " " + counterCurrentRiddle);
-                nextRiddle();
+                nextRiddle(properties);
             } else {
                 l.isSelected = false;
                 System.out.println("Rätsel wurde nicht gelöst.");
@@ -104,12 +110,12 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
         }
     }
 
-    private void nextRiddle() {
-        // TODO Auto-generated method stub
+    private void nextRiddle(Properties properties) {
         counterCurrentRiddle++;
         if (counterCurrentRiddle >= images.size()) {
+            countdownTimer.removeActionListener(countdownExpired);
             counterCurrentRiddle = 0;
-            endscreen = new Endscreen();
+            endscreen = new Endscreen(properties);
             endscreen.getFrame().setVisible(true);
             Playscreen.playscreen.frame.setVisible(false);
         }

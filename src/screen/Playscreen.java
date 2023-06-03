@@ -54,7 +54,7 @@ public class Playscreen {
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
         Playscreen_Panel panel = new Playscreen_Panel(properties);
         frame.getContentPane().add(panel, BorderLayout.CENTER);
-        frame.setBounds(100, 100, panel.getimg().getWidth(null), panel.getimg().getHeight(null));
+        frame.setBounds(100, 100, panel.getImage().getWidth(null), panel.getImage().getHeight(null));
     }
 
     public JFrame getFrame() {

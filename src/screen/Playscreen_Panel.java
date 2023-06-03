@@ -22,9 +22,9 @@ import java.util.ArrayList;
 public class Playscreen_Panel extends JPanel implements MouseListener, ActionListener {
 
     ArrayList<Image> images;
-    int aktindex = 0;
+    int currentRiddle = 0;
     ArrayList<Location> locations;
-    Endscreen wnd3;
+    Endscreen endscreen;
     private int counterCurrentRiddle = 0;
 
     /**
@@ -58,12 +58,12 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
     }
 
     public void paint(Graphics g) {
-        Image img = images.get(counterCurrentRiddle);
-        int wp = img.getWidth(null);
-        int w = getWidth();
-        int h = img.getHeight(null) * w / wp;
+        Image image = images.get(counterCurrentRiddle);
+        int wp = image.getWidth(null);
+        int width = getWidth();
+        int height = image.getHeight(null) * width / wp;
 
-        g.drawImage(img, 0, 0, w, h, null);
+        g.drawImage(image, 0, 0, width, height, null);
         //loclist.get(actraetsel).draw((Graphics2D)g);
         for (Location l : locations) {
             //		l.draw((Graphics2D)g);
@@ -71,34 +71,31 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
 
     }
 
-    public Image getimg() {
-        // TODO Auto-generated method stub
-
-        return images.get(aktindex);
+    public Image getImage() {
+        return images.get(currentRiddle);
     }
 
     /**
      * @return the aktindex
      */
-    public int getAktindex() {
-        return aktindex;
+    public int getCurrentRiddle() {
+        return currentRiddle;
     }
 
     /**
-     * @param aktindex the aktindex to set
+     * @param currentRiddle the aktindex to set
      */
-    public void setAktindex(int aktindex) {
-        this.aktindex = aktindex;
+    public void setCurrentRiddle(int currentRiddle) {
+        this.currentRiddle = currentRiddle;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
         System.out.println("( " + e.getX() + ", " + e.getY() + " )");
         for (Location l : locations) {
             if (l.ishit(e.getX(), e.getY())) {
                 System.out.println("Rätsel " + l.name + " " + counterCurrentRiddle);
-                nextraetsel();
+                nextRiddle();
             } else {
                 l.isSelected = false;
                 System.out.println("Rätsel wurde nicht gelöst.");
@@ -107,16 +104,14 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
         }
     }
 
-    private void nextraetsel() {
+    private void nextRiddle() {
         // TODO Auto-generated method stub
         counterCurrentRiddle++;
         if (counterCurrentRiddle >= images.size()) {
             counterCurrentRiddle = 0;
-            wnd3 = new Endscreen();
-            wnd3.getFrame().setVisible(true);
+            endscreen = new Endscreen();
+            endscreen.getFrame().setVisible(true);
             Playscreen.playscreen.frame.setVisible(false);
-            //Spielscreen.window.getFrame().setVisible(false);
-            //Spielscreen.window.frame.setVisible(false);
         }
         repaint();
     }

@@ -18,8 +18,8 @@ import java.nio.file.FileSystems;
 
 public class Startscreen_Panel extends JPanel {
 
-    Image image;
     private final Properties properties;
+    Image image;
 
     /**
      * Create the panel.

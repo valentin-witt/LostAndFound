@@ -1,6 +1,5 @@
 package screen;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import config.Properties;
 import config.PropertiesReader;
 

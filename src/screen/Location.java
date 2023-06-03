@@ -59,10 +59,8 @@ public class Location {
         //g.setStroke(BasicStroke.CAP_ROUND);
         g.setColor(Color.green);
 
-        if (image != null)
-            g.drawImage(image, x0, y0, w, h, null);
-        if (isSelected)
-            g.drawRect(x0, y0, w, h);
+        if (image != null) g.drawImage(image, x0, y0, w, h, null);
+        if (isSelected) g.drawRect(x0, y0, w, h);
         g.drawString(name, x0 + 10, y0 + 20);
     }
 }

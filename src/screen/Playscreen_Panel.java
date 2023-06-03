@@ -28,9 +28,9 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
     Looserscreen looserscreen;
     private int counterCurrentRiddle = 0;
 
-    private ActionListener countdownExpired;
-    private Timer countdownTimer;
-    private int countdownTime;
+    private final ActionListener countdownExpired;
+    private final Timer countdownTimer;
+    private final int countdownTime;
 
     /**
      * Create the panel.
@@ -41,14 +41,15 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
         locations = new ArrayList();
 
         // CountdownTimer
-        countdownTime = properties.getCountdownTime() * 10 * 1000; // Delay in milliseconds
+        countdownTime = properties.getCountdownTime() * 60 * 1000; // Delay in milliseconds
 
         // Initialize ActionListener to perform task if the countdownTime expires
-       countdownExpired = new ActionListener() {
+        countdownExpired = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 Looserscreen.looserscreen = new Looserscreen(properties);
                 Looserscreen.looserscreen.frame.setVisible(true);
                 Playscreen.playscreen.frame.setVisible(false);
+                // remove actionListener from timer
                 countdownTimer.removeActionListener(countdownExpired);
             }
         };
@@ -113,7 +114,9 @@ public class Playscreen_Panel extends JPanel implements MouseListener, ActionLis
     private void nextRiddle(Properties properties) {
         counterCurrentRiddle++;
         if (counterCurrentRiddle >= images.size()) {
+            // remove actionListener from timer
             countdownTimer.removeActionListener(countdownExpired);
+
             counterCurrentRiddle = 0;
             endscreen = new Endscreen(properties);
             endscreen.getFrame().setVisible(true);

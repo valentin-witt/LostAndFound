@@ -1,6 +1,5 @@
 package config;
 
-import config.Properties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -10,10 +9,10 @@ public class PropertiesReader {
 
     private Properties properties;
 
-    public Properties readPropertiesFile(String pathOfPropertiesFile){
+    public Properties readPropertiesFile(String pathOfPropertiesFile) {
         this.properties = new Properties();
 
-        if (pathOfPropertiesFile != null && pathOfPropertiesFile.length()>0) {
+        if (pathOfPropertiesFile != null && pathOfPropertiesFile.length() > 0) {
 
             ObjectMapper mapper = new ObjectMapper();
 

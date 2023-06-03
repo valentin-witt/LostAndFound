@@ -12,7 +12,7 @@ import java.nio.file.FileSystems;
 public class Endscreen_Panel extends JPanel {
 
     Image image;
-    private Properties properties;
+    private final Properties properties;
 
     /**
      * Create the panel.

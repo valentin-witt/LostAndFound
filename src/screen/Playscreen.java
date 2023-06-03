@@ -1,4 +1,4 @@
-package view;
+package screen;
 
 import config.Properties;
 import config.PropertiesReader;

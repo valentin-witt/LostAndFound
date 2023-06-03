@@ -1,4 +1,4 @@
-package view;
+package screen;
 
 import config.Properties;
 import config.PropertiesReader;
@@ -9,16 +9,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.FileSystems;
 
-public class Startscreen {
+public class Looserscreen {
 
     private final static String PATH_TO_PROPERTIES = "/Users/valentinwitt/Documents/15_Coding/01_Java/LostAndFound/properties.json";
-    public static Startscreen startscreen;
-    public JFrame frame;
+    static Looserscreen window;
+    private JFrame frame;
+    private JButton btnExitGame;
+    private JButton btnRestartGame;
+
 
     /**
      * Create the application.
      */
-    public Startscreen() {
+    public Looserscreen() {
         initialize();
     }
 
@@ -29,8 +32,8 @@ public class Startscreen {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    startscreen = new Startscreen();
-                    startscreen.getFrame().setVisible(true);
+                    window = new Looserscreen();
+                    window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -53,27 +56,32 @@ public class Startscreen {
         frame.setTitle("Das vierte Fragezeichen ?");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
 
-        JButton btnStartGame = new JButton("Spiel starten");
-        btnStartGame.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Playscreen.playscreen = new Playscreen();
-                Playscreen.playscreen.frame.setVisible(true);
-                frame.setVisible(false);
-            }
-        });
-        frame.getContentPane().setLayout(new BorderLayout(0, 0));
-        frame.getContentPane().add(btnStartGame, BorderLayout.SOUTH);
-
-        Startscreen_Panel panel = new Startscreen_Panel(properties);
+        Looserscreen_Panel panel = new Looserscreen_Panel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-    }
+        JPanel panel_1 = new JPanel();
+        frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
 
-    private Component getFrame() {
-        return frame;
-    }
+        JButton btnSpiel_schließen = new JButton("Spiel schließen");
+        btnSpiel_schließen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        panel_1.add(btnSpiel_schließen);
 
+        JButton btnSpiel_neu_starten = new JButton("Spiel neu starten");
+        btnSpiel_neu_starten.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Playscreen.playscreen = new Playscreen();
+                Playscreen.playscreen.getFrame().setVisible(true);
+                Looserscreen.window.frame.setVisible(false);
+
+            }
+        });
+        panel_1.add(btnSpiel_neu_starten);
+
+    }
 }
 

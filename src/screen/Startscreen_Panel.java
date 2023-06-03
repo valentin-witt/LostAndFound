@@ -1,7 +1,7 @@
 /**
  *
  */
-package view;
+package screen;
 
 /**
  * @author iwitt01si
